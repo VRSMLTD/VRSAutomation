@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.3
+
+- Fixed the input adapter missing its painted texture (vent grill and patina).
+- Build menu icons are now shipped as images instead of being rendered at launch, so they look the same every time.
+- Simplified how the mod loads its sound effects.
+
 ## 0.7.2
 
 First public release.

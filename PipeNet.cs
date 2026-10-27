@@ -37,7 +37,6 @@ namespace VRSAutomation
     {
         internal static void Postfix(ZNetScene __instance)
         {
-            IconRenderer.Run(__instance);
             ToolModel.Refresh();
             GameObject pipePrefab = PipePrefab.Get();
             if (!__instance.m_prefabs.Contains(pipePrefab))

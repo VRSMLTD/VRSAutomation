@@ -41,19 +41,9 @@ public static class Sounds
     private static GameObject host;
     private static bool started;
 
-    private static Type Find(string fullName, params string[] assemblyNames)
+    private static Type Find(string fullName, string assembly)
     {
-        foreach (string name in assemblyNames)
-        {
-            try { Assembly.Load(name); } catch { }
-        }
-        foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
-        {
-            Type t = null;
-            try { t = a.GetType(fullName, false); } catch { }
-            if (t != null) return t;
-        }
-        return null;
+        return Type.GetType(fullName + ", " + assembly, false) ?? HarmonyLib.AccessTools.TypeByName(fullName);
     }
 
     public static void Start()

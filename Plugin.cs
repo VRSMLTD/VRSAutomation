@@ -17,7 +17,7 @@ namespace VRSAutomation
     {
         public const string PluginGuid = "VRSMLTD.VRSAutomation";
         public const string PluginName = "VRSAutomation";
-        public const string PluginVersion = "0.7.2";
+        public const string PluginVersion = "0.7.3";
         public const string LinkTableName = "_VRSLinkToolPieceTable";
         public const string PipeToolName = "VRS_Pipe";
         public const string LinkToolName = "VRS_LinkTool";

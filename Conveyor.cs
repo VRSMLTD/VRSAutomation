@@ -120,13 +120,58 @@ namespace VRSAutomation
             }
 
             Mesh mesh = new Mesh();
-            mesh.name = side == 0 ? "VRS_AdapterDual" : "VRS_AdapterSingle";
+            mesh.name = side == 0 ? "VRS_AdapterDual" : side > 0 ? "VRS_AdapterIn" : "VRS_AdapterOut";
             mesh.SetVertices(v);
             UvPack.Track(mesh, uv, t);
             mesh.SetTriangles(t, 0);
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
             return mesh;
+        }
+
+        private static string IconFile(string name)
+        {
+            if (name == PieceName)
+            {
+                return "VRS_icon_conveyor.png";
+            }
+
+            if (name == SplitterName)
+            {
+                return "VRS_icon_splitter.png";
+            }
+
+            if (name == CombinerName)
+            {
+                return "VRS_icon_combiner.png";
+            }
+
+            if (name == AdapterDualName)
+            {
+                return "VRS_icon_adapter_dual.png";
+            }
+
+            return name == AdapterInName ? "VRS_icon_adapter_in.png" : name == AdapterOutName ? "VRS_icon_adapter_out.png" : null;
+        }
+
+        private static Sprite LoadIcon(string name)
+        {
+            string file = IconFile(name);
+            byte[] data = file != null ? Assets.ReadBytes(file) : null;
+            if (data == null)
+            {
+                return null;
+            }
+
+            Texture2D texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            if (!PipeTool.TryLoadPng(texture, data))
+            {
+                return null;
+            }
+
+            texture.filterMode = FilterMode.Bilinear;
+            texture.wrapMode = TextureWrapMode.Clamp;
+            return Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
 
         private static void RegisterPiece(ConfigFile config, string name, string title, string description, string defaultCost, Mesh mesh, Vector3 colliderSize, Vector3 colliderCenter, Sprite icon)
@@ -138,7 +183,8 @@ namespace VRSAutomation
             pieceConfig.Description = description;
             pieceConfig.PieceTable = PieceTables.Hammer;
             pieceConfig.Category = Plugin.CategoryName;
-            pieceConfig.Icon = icon != null ? icon : FallbackIcon();
+            Sprite own = LoadIcon(name);
+            pieceConfig.Icon = own != null ? own : icon != null ? icon : FallbackIcon();
             foreach (KeyValuePair<string, int> part in Costs.Parse(cost.Value, defaultCost))
             {
                 pieceConfig.AddRequirement(new RequirementConfig(part.Key, part.Value, 0, true));
@@ -1517,6 +1563,7 @@ namespace VRSAutomation
     }
 }
 
+#if DEV
 namespace VRSAutomation
 {
     internal static class UvTemplate
@@ -1641,6 +1688,7 @@ namespace VRSAutomation
         }
     }
 }
+#endif
 
 namespace VRSAutomation
 {
