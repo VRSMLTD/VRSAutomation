@@ -1,0 +1,10 @@
+{
+    "name": "VRSAutomation",
+    "version_number": "0.7.2",
+    "website_url": "https://github.com/VRSMLTD/VRSAutomation",
+    "description": "Rust-style automation for Valheim: connect chests and machines with pipes, conveyors, splitters and adapters. Server-driven, works while you are away.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2333",
+        "ValheimModding-Jotunn-2.30.2"
+    ]
+}
